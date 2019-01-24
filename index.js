@@ -7,6 +7,7 @@ var argv = require('minimist')(process.argv.slice(2));
 // -w <width>
 // -h <height>
 // -m maximize
+// -s wait time
 
 
 var browser = new Driver();
@@ -19,7 +20,7 @@ else{
 
 
 if(argv.o){
-  browser.screenshot(argv.o, {width: argv.w, height: argv.h, x:50, y:50}, argv.m);
+  browser.screenshot(argv.o, {width: argv.w, height: argv.h, x:50, y:50}, argv.m, argv.s);
 }
 else{
   console.log('-o parameter is required');

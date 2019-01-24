@@ -25,13 +25,40 @@ class Driver {
         
   }
 
-  async screenshot(filename, size, max){
+  async screenshot(filename, size, max, wait){
     if(max){
       await this.driver.manage().window().maximize();
     }
     else{
       await this.driver.manage().window().setRect(size);
     }
+
+
+    var scrollScript = `function range(start, end, inc) {
+        if(start >= end) return [start];
+        return [start, ...range(start + inc, end, inc)];
+      }
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+      async function start_scroll(){ 
+        for await (var i of range(100, document.body.scrollHeight, 500)){
+          window.scrollTo(0,i); 
+          await sleep(${wait});
+        }
+        return true;
+      }
+      start_scroll();
+      `;
+
+    await this.driver.executeScript(scrollScript);
+
+    await this.driver.wait(function(){
+      return this.driver.executeScript("return ((window.pageYOffset + window.innerHeight) >= document.body.scrollHeight)")
+    }.bind(this));
+
+    await this.driver.executeScript("window.scrollTo(0,0)");
+    await this.driver.sleep(1000);      
 
     var file = path.join(__dirname, "./html2canvas.min.js")
     var script = fs.readFileSync(file,'utf8')
@@ -63,3 +90,5 @@ class Driver {
 }
 
 module.exports = Driver;
+
+
