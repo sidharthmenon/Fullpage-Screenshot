@@ -1,0 +1,16 @@
+{
+  "name": "fullpage-screenshot",
+  "version": "1.0.0",
+  "description": "Capture full page screenshot",
+  "main": "./test.js",
+  "author": "Sidharth Menon <sidharth.menon91@gmail.com>",
+  "license": "GNUGPLv3",
+  "private": true,
+  "scripts": {
+    "start": "nodemon -i ./gui -i ./selenium-whatsapp -i ./debug.log server.js"
+  },
+  "dependencies": {
+    "chromedriver": "^2.45.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
